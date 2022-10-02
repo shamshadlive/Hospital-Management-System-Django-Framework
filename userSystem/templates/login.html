@@ -1,0 +1,123 @@
+{% extends "patientApp/base.html" %}
+
+{% block title %}
+User Login
+{% endblock title %}
+
+{% block navbar %}
+
+<section id="prenavbar">
+
+    {%include 'patientApp/prenavbar.html'%}
+ 
+  </section>
+
+
+{% endblock navbar %}
+
+
+{% block content %}
+
+
+
+    <!-- main div for center align -->
+    <div class="d-flex justify-content-center">
+        <div class="container p-5 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 m-5" style="background-color: white; ">
+            
+            
+
+        <form id="UserLogForm" method="POST" action="">
+            <div class="row text-center mb-3">
+                    <h3 class="heading_font mb-3">User Login !</h3>
+            </div>
+
+            <div class="row">
+                <div class="input-group mb-3">
+                    <span class="input-group-text inputfieldForm" id="inputUsername" style="background: none; border:none;"><i class="bi bi-heart-fill fs-4"></i></span>
+                    <input  id="inputUsername" name="inputUsername" type="text" class="form-control inputfieldForm" maxlength="150" placeholder="Username" autofocus required aria-describedby="inputUsername">  
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-group mb-3">
+                    <span class="input-group-text inputfieldForm" id=" inputPassword" style="background: none; border:none;"><i class="bi bi-shield-lock-fill fs-4"></i></span>
+                    <input id="id_inputPassword" name="inputPassword" type="password" class="form-control inputfieldForm" placeholder="Password"  required aria-describedby=" inputPassword">
+                    <button style="border:none;" class="btn bi bi-eye-slash-fill" type="button" id="id__input_password_passButton" onclick="togglebutton('id_inputPassword')"></button>
+                </div>
+            </div> 
+                    
+        {% csrf_token %}  
+
+        <!-- are u section -->
+        <div class="row">
+            <div class="input-group mb-3">
+                <label for="id_userType"> Are You :</label>
+                <select required onchange=""  class="form-select" name="userType" id="id_userType" >
+                <option value="" disabled selected>--chooose--</option>
+                <option value="PATIENT"  >Patient</option>
+                <option value="DOCTOR" >Doctor</option>
+                <option value="HOSADMIN" >Hospital Admin</option>
+                </select>
+
+            </div>
+        </div>
+
+
+        <div class="d-flex justify-content-center mt-2">
+            
+            <div class="row col-12 ">
+                <button type="submit" id="id_LOGButton" class="btn p-3" style="background-color:#000000 ; color:white; font-variant: all-petite-caps;
+                font-size: medium;"  disabled="disabled"  > Login Now </button>
+            </div>
+           
+          </div>
+<br>
+          <div class=" d-flex mt-2"  >
+            Don't have a account ? <a href="{% url 'register' %}" class="ms-2" style="text-decoration: none;
+            color: #4192ff;
+            font-weight: 500;"> Register Here </a>
+ 
+         </div>
+         <div class=" d-flex "  >
+            Forgot Password ?   
+           <a href="{% url 'reset_Password' %}" class="ms-2" style="text-decoration: none; 
+            color: #4192ff;
+            font-weight: 400;">Reset Password</a>
+ 
+         </div>
+
+
+
+        </form>
+   
+    {% if messages%}
+    {% for message in messages %}
+    <br>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{message |safe }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+    {% endif %}
+  
+
+        
+        
+        </div>
+
+        
+      
+
+    </div>
+   
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

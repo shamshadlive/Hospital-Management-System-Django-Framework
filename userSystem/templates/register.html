@@ -1,0 +1,201 @@
+{% extends "patientApp/base.html" %}
+{% load static %}
+{% block title %}
+User Registration
+{% endblock title %}
+
+
+{% block content %}
+
+<script>
+    
+    window.addEventListener('load', function () {
+        //retain values even if reloades
+     
+        //check first_name when none
+        '{{user_form.first_name.value}}'=='None'?  document.getElementById("id_first_name").value = "": checkFirstName("id_first_name");
+
+        //check username when none
+        '{{user_form.username.value}}'=='None'?  document.getElementById("id_username").value = "":checkUsername("id_username");
+
+        //check email when none
+        '{{user_form.email.value}}'=='None'?  document.getElementById("id_email").value = "": checkEmail("id_email");
+
+        
+        //check checkPhone when none
+        '{{user_form.phone_number.value}}'=='None'?  document.getElementById("id_phone_number").value = "": checkPhone("id_phone_number");
+
+    
+      })
+    
+    
+</script>
+    
+
+
+    
+
+    <!-- main div for center align -->
+    <div class="d-flex justify-content-center">
+
+      
+
+        <div class="container p-5 col-12 col-sm-12 col-md-12 col-lg-12 col-xl-4 m-5" style="background-color: white; ">
+            
+            
+
+        <form id="UserRegForm" method="POST" action="">
+            <div class="row text-center mb-3">
+                    <h3 class="heading_font mb-3">Create Account !</h3>
+            </div>
+
+            <div class="row ">
+            <!-- Form get with id_username -->
+                <div class="input-group mb-3 d-flex align-items-center">
+                  
+                    <span class="input-group-text "  style="background: none; border:none;"><i class="bi bi-heart-fill fs-4"></i></span>
+                    <input 
+                    style="z-index: 50;" 
+                    onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 48 && event.charCode <= 57)" 
+                    onkeyup="checkUsername(this.id);" 
+                    value="{{user_form.username.value}}" 
+                    id="id_username" name="username" type="text" class="form-control inputfieldForm" maxlength="150" 
+                    placeholder="Username" autofocus required aria-describedby="id_username">
+                  
+                    <i  id="id_username_Error" class="d-none fs-4" style="z-index: 99;"></i>
+                  
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                  <!-- Form get with id_fisresnme -->
+                <div class="input-group mb-3">
+
+                    <span class="input-group-text "  style="background: none; border:none;"><i class="bi bi-chat-right-dots-fill fs-4"></i></span>
+                    <!-- only alpa charachters no digits -->
+                    <input 
+                    onkeyup="checkFirstName(this.id);"
+                    onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122)" 
+
+                    style="z-index: 50;" value="{{user_form.first_name.value}}" id="id_first_name" name="first_name" type="text" class="form-control inputfieldForm"  placeholder="First Name"  required aria-describedby="id_first_name">
+                
+                    <i  id="id_first_name_Error" class="d-none fs-4" style="z-index: 99;"></i>
+
+                </div>
+            </div>
+
+              <!-- Form get with id_phone_number -->
+            <div class="row">
+              
+              <div class="input-group mb-3">
+
+                  <span class="input-group-text "  style="background: none; border:none;"><i class="bi bi-telephone-fill fs-4"></i></span>
+                  <!-- only digits -->
+                  <input 
+                  onkeyup="checkPhone(this.id);"
+                  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) " 
+                  maxlength="10" 
+                  style="z-index: 50;" value="{{user_form.phone_number.value}}" id="id_phone_number" name="phone_number" type="text" class="form-control inputfieldForm"  placeholder="Phone number"  required aria-describedby="id_phone_number">
+              
+                  <i  id="id_phone_number_Error" class="d-none fs-4" style="z-index: 99;"></i>
+
+              </div>
+          </div>
+
+            
+
+          <!-- Form get with id_email -->
+            <div class="row">
+                <div class="input-group mb-3">
+                    <span class="input-group-text " style="background: none; border:none;"><i class="bi bi-envelope-plus-fill fs-4"></i></span>
+                    <input onkeyup="checkemailFormat(this.id);" style="z-index: 50;" value="{{user_form.email.value}}"  id="id_email" name="email" type="email" class="form-control inputfieldForm" placeholder="Email Address"  required aria-describedby="id_email">
+                  
+                    <i  id="id_email_Error" class="d-none fs-4" style="z-index: 99;"></i>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-group mb-3">
+                    <span class="input-group-text " id="id_password1" style="background: none; border:none;"><i class="bi bi-shield-lock-fill fs-4"></i></span>
+                    <input style="z-index: 50;" id="id__input_password1" name="password1" type="password" class="form-control inputfieldForm" placeholder="Password"  required aria-describedby=" id_password1">
+                
+                    <button style="border:none;" class="btn bi bi-eye-slash-fill" type="button" id="id__input_password1_passButton" onclick="togglebutton('id__input_password1')"></button>  
+                
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-group mb-3">
+                    <span class="input-group-text " id="id_password2" style="background: none; border:none;"><i class="bi bi-shield-fill-check fs-4"></i></span>
+                    <input id="id__input_password2" name="password2" type="password" class="form-control inputfieldForm" placeholder="Confirm Password"  required >
+                   
+                    <button style="border:none;" class="btn bi bi-eye-slash-fill" type="button" id="id__input_password2_passButton" onclick="togglebutton('id__input_password2')"></button>  
+                </div>
+                <h6  class="form-text" style="color: red;"> {{user_form.password2.errors}}</h6>
+            </div>
+
+
+            
+
+            <!-- Form get with id_email -->
+            <div class="row">
+                <div class="input-group mb-3">
+                    <label for="id_userType"> Are You :</label>
+                    <!-- <select required onchange=""  class="form-select" name="userType" id="id_user_Type" > -->
+                   
+
+                     {{user_form.user_Type}}
+                 
+
+                        </select>
+                    
+
+
+    
+                    <!-- </select> -->
+
+                </div>
+            </div>
+
+                    
+                    
+            {% csrf_token %}  
+
+            <div class="d-flex justify-content-center mt-2">
+            
+            <div class="row col-12 ">
+                <input type="submit" id="id_registerButton" class="btn p-3 " style=" background-color:black; color:#ffffff; font-variant: all-petite-caps;
+                font-size: medium;" disabled="disabled"  value="Register Now"> 
+            </div>
+           
+          </div>
+        </form>
+
+          <div class="d-flex mt-2"  >
+           Already have a account ? <a href="{% url 'UserLogin' %}" class="ms-2" style="text-decoration: none;
+           color: #4192ff;
+           font-weight: 500;"> Login Here</a>
+
+           </div>
+
+
+    <!-- Fetch messages     -->
+    {% if messages %}
+    {% for message in messages %}
+    <br>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+    {% endif %}
+        
+        </div>    
+      
+    </div>
+   
+</div>
+{% endblock content %}
