@@ -1,4 +1,38 @@
+{% extends "patientApp/base.html" %}
+
+{% block title %}
+Patient Home
+{% endblock title %}
+
+{% block navbar %}
+
+<section id="navbar">
+
+    {%include 'patientApp/navbar.html'%}
+ 
+  </section>
+
+
+{% endblock navbar %}
+
+
+{% block content %}
+    
+
 this is patient home <br>
 
-<a href="{% url 'loginPatient' %}" > loginPatient </a> <br>
-<a href="{% url 'registerPatient' %}" > registerPatient </a> <br>
+
+
+{{user.first_name}}
+
+<a href="{% url 'logoutuser' %}">logout</a>    
+        
+       
+{% endblock content %}
+
+
+
+
+
+
+

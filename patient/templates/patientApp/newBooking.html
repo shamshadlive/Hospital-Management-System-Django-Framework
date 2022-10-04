@@ -1,0 +1,121 @@
+{% extends "patientApp/base.html" %}
+{% load static %}
+
+{% block title %}
+
+New Booking
+{% endblock title %}
+
+{% block scripts %}
+
+<script src="{% static 'patientApp/js/booking.js' %}"></script> 
+
+<script>
+    //passing data to script
+    var gethospital = '{{ hospital | safe }}';
+
+</script>
+
+{% endblock scripts %}
+
+
+{% block content %}
+
+
+
+
+
+  <!-- main div for center align -->
+  <div class="d-flex justify-content-center">
+
+        <div class="container-fluid  col-xl-6  col-12 m-5" style="background-color: white; ">
+            
+            <div class="row bg-dark p-3 text-center ">
+                <i class="bi bi-clipboard-plus-fill fs-1 " style="color: White !important;"></i>
+            <h4 class="heading_font " style="color: White !important;">New Appointment Booking</h4>
+
+        </div>
+
+        <div class="row text-center ">
+
+            <h3 class="bottom_font mt-2">To schedule an appointment, please fill out the information below.</h3>
+        </div>
+
+        <!-- contact informations -->
+        <div class="row border-bottom m-2">
+            <h3 class="heading_font mt-2">Contact information</h3>
+            <div class=" col-6 ">
+                <h3 class="bottom_font">UHID : <b> {{patient.patient_uhid}} </b></h3>
+            </div>
+            <div class=" col-6  ">
+                <h3 class="bottom_font">NAME : <b> {{user.first_name}} </b></h3>
+            </div>
+        </div>
+
+        <div id="divContactBtn" class="d-flex justify-content-center mt-2"> 
+            <div class="row col-6 m-3 ">
+                <button id="btn_ContactInfo"  onclick="hideElement('#divContactBtn' , '#id_HospitalDetails' )" class="btn btn-dark"> Proceed</button>
+             </div>
+         </div>
+
+         <!-- //form data  -->
+         <form id="formPatientBooking" method="POST" action="{% url 'patientChooseDoctor' %}">
+            {% csrf_token %}
+                <div id="id_HospitalDetails" class="d-none" >
+                            <!-- Hospital details -->
+                            <div class="row border-bottom m-2">
+                                <h3 class="heading_font mt-2">Hospital Details </h3>
+                            <!-- Choose District -->
+                                <div class=" col-12 col-xl-6 col-md-6 my-2 ">
+                                    <label for="id_hospital_district"> Choose District :</label>
+                                    <!-- updateHospitalType for enabling other hospital type -->
+                                    <select required onchange="updateHospitalType()" class="form-select" name="hospital_district" id="id_hospital_district" >
+                                        <option value="" disabled selected>---Choose District---</option>
+                                
+                                    </select>
+                                </div>
+                            <!-- Hospital Type -->
+                                <div class=" col-12 col-xl-6 col-md-6  my-2 ">    
+                                    <label for="id_HospitalType"> Hospital Type :</label>
+                                    <select required onchange="updateHospitalName()"   class="form-select" name="hospital_type" id="id_HospitalType" >
+                                        <option value="" disabled selected>---Hospital Type---</option>
+                                    </select>
+                                </div>
+                            <!-- Hospital Name -->
+                                <div class=" col-12 col-xl-6 col-md-6   my-2 ">  
+                                        <label for="id_HospitalName"> Hospital Name :</label>
+                                        <select required onchange="updateHospitalDepartment()"  class="form-select" name="hospital_name" id="id_HospitalName" >
+                                        <option value="" disabled selected>---Hospital Name---</option>
+                                        </select>
+                                </div>
+                            <!-- Department -->
+                                <div class=" col-12 col-xl-6 col-md-6  my-2 ">
+                                    <label for="id_HospitalDepartment"> Hospital Department :</label>
+                                    <select required  class="form-select" name="hospital_department" id="id_HospitalDepartment" >
+                                    <option value="" disabled selected>---Hospital Department---</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-2"> 
+                                <div class="row col-6 m-3 ">
+                                    <input type="submit"  class="btn btn-dark"  value="Proceed">
+                                  
+                                </div>
+                            </div>
+                </div>
+          </form>
+
+        
+
+ 
+     </div>
+    </div>
+
+
+
+
+
+
+
+{% endblock content %}

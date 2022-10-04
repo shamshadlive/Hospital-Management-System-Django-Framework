@@ -5,6 +5,5 @@ from . import views
 
 urlpatterns = [ 
     path('home-doctor', views.homeDoctor, name='homeDoctor'),
-
 ]
  

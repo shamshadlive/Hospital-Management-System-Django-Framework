@@ -1,0 +1,133 @@
+{% extends "patientApp/base.html" %}
+{% load static %}
+
+{% block title %}
+
+New Booking
+{% endblock title %}
+
+{% block scriptFiles %}
+
+
+<script src="{% static 'patientSystemStatic/js/chooseDoctor.js' %}"></script> 
+<script> doctor = JSON.parse('{{doctorDetails | safe}}')
+    selectedHosDepartment='{{selectedHosDepartment  | safe}}'
+</script>
+
+
+    <script>
+
+        $(document).ready(function() {
+          
+            $(function() {
+                $( "#id_AppointDate" ).datepicker({ 
+                    dateFormat: 'yy-mm-dd' ,
+                    minDate: 1 });
+            });
+        })
+     </script>
+
+
+{% endblock scriptFiles %}
+{% block content %}
+
+  <!-- main div for center align -->
+  <div class="d-flex justify-content-center">
+
+        <div class="container-fluid  col-xl-6  col-12 m-5" style="background-color: white; ">
+            
+            <div class="row bg-dark p-3 text-center ">
+                <i class="bi bi-clipboard-plus-fill fs-1 " style="color: White !important;"></i>
+            <h4 class="heading_font " style="color: White !important;">Choose Doctor and Timing</h4>
+
+        </div>
+
+        <div class="row text-center  ">
+
+            <h3 class="bottomFont mt-2">To schedule an appointment, please fill out the information below.</h3>
+           
+        </div>
+
+        <!-- Booking Details -->
+        <div class="row border-bottom  m-2">
+            <h3 class="heading_font mt-2">Booking Details</h3>
+        </div>
+        <div class="row border-bottom  m-2">
+                <div class=" col-12 ">
+                    <h3 class="bottomFont"> District : <b> {{selectedHosDistrict}}</b>  </h3>
+                </div>
+                <div class=" col-12  ">
+                    <h3 class="bottomFont">Type Of Hospital : <b> {{selectedHosType}} </b></h3>
+                </div>
+                <div class=" col-12 ">
+                    <h3 class="bottomFont"> Name Of Hospital : <b> {{selectedHosName}}</b>  </h3>
+                </div>
+                <div class=" col-12  ">
+                    <h3 class="bottomFont">Department To Book : <b> {{selectedHosDepartment}} </b></h3>
+                </div>
+        </div>
+        <form action="{% url 'patientSaveBooking' dep=selectedHosDepartment hosname=selectedHosName uhid=patient.patient_uhid  %}" method="post" >
+            {% csrf_token %}
+         <!-- Select Doctor -->
+         <div class="row border-bottom  m-2">
+            <h3 class="heading_font mt-2">Doctor Details </h3>
+           
+
+            <!-- Doctor -->
+            <div class=" col-12 col-xl-6 col-md-6   my-2 ">  
+                <label for="id_DoctorName"> Doctor :</label>
+                <select required onchange="updateDoctorTiming()"  class="form-select" name="doctor_name" id="id_DoctorName" >
+                <option value="" disabled selected>---Choose Doctor---</option>
+                                   
+                </select>
+            </div>
+
+             <!-- Time Slot -->
+             <div class=" col-12 col-xl-6 col-md-6   my-2 ">  
+                <label for="id_DoctorTimeSlot"> Time Slot :</label>
+                <select required onchange=""  class="form-select" name="doctor_timeSlot" id="id_DoctorTimeSlot" >
+                <option value="" disabled selected>---Choose Time Slot---</option>
+                </select>
+            </div>
+
+            <!-- Date -->
+            <div class=" col-12 col-xl-6 col-md-6   my-2 ">  
+                <label for="id_AppointDate"> Date :</label>
+
+                 <input required readonly type="text" class="form-select" name="AppointDate"  id="id_AppointDate">
+               
+            </div>
+
+           
+
+        </div>
+
+
+       
+
+        <div class="d-flex justify-content-center mt-2"> 
+
+         
+            <div class="row col-6 m-3 ">
+
+                <input type="submit"  class="btn btn-dark"  value="Book Now">
+       
+              
+            </div>
+         </div>
+        </form>
+     </div>
+  </div>
+
+
+
+
+
+       
+
+  
+
+
+
+
+{% endblock content %}

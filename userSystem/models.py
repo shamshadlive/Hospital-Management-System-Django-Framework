@@ -4,9 +4,9 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 userChoices = (
-        ('HOSADMIN', 'HOSADMIN'),
-        ('DOCTOR', 'DOCTOR'),
-        ('PATIENT', 'PATIENT'),
+        ('HOSADMIN', 'Hospital Admin'),
+        ('DOCTOR', 'Doctor'),
+        ('PATIENT', 'Patient'),
     )
 
 

@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate,login ,logout ,get_user_model
 from django.contrib import messages
 from .models import CustomUser
 from patient.models import Patient
+from hospital.models import HospitalAdmin
 from .forms import *
 from django.contrib.auth.models import User
 
@@ -101,12 +102,13 @@ def register(request):
                 messages.success(request, 'Please verify your e-mail to login')
 
                    #getting user type
-                userType= request.POST['userType']
+                userType= request.POST['user_Type']
 
                 if userType=='HOSADMIN':
 
                     hospitalAdmin=HospitalAdmin.objects.create(userID=user)
                     hospitalAdmin.save()
+                    return redirect('loginHospital')
                     
 
                 elif  userType=='PATIENT':
@@ -114,16 +116,15 @@ def register(request):
                      patient_uhid=100000000000+(user.id)
                      patient=Patient.objects.create(userID=user,patient_uhid=patient_uhid)
                      patient.save()
+                     return redirect('loginPatient')
 
                 elif  userType=='DOCTOR':
                      doctor=Doctor.objects.create(userID=user)
                      doctor.save()
+                     return redirect('loginDoctor')
                 else:
                     pass
-                
-                return redirect('UserLogin')
-               
-
+                    
             else:
 
                 messages.error(request, 'Please check all the field before submission')
@@ -134,20 +135,27 @@ def register(request):
         return render(request, 'register.html',context)
 
 
-#login patient
+# #login patient
 def UserLogin(request):
 
   
     #blocking admin
     if (request.user.is_superuser) and (request.user.is_authenticated):
             return HttpResponse("Got You Admin")
+    
+    elif (User.objects.filter(user_Type="PATIENT").exists()) and (request.user.is_authenticated):
+            return redirect('homePatient')
+    elif (User.objects.filter(user_Type="DOCTOR").exists()) and (request.user.is_authenticated):
+            return redirect('homeDoctor')
+    elif (User.objects.filter(user_Type="HOSADMIN").exists()) and (request.user.is_authenticated):
+            return redirect('homeHospital')
   
     elif request.method == 'POST':
 
             username = request.POST.get('inputUsername') 
             password = request.POST.get('inputPassword') 
             userType = request.POST.get('userType') 
-            user = authenticate(request, username=username , password=password,user_Type=userType)
+            user = authenticate(request, username=username , password=password)
             #sending error message with link
             msg = """
                 Please Activate Your account first. 
@@ -162,9 +170,21 @@ def UserLogin(request):
                  return render(request, 'login.html')
             #Authenticate User
             elif user is not None:
-                #login approved
-                login(request, user)
-                return redirect('patient-home')
+                 #login approved
+                 login(request, user)
+                 if (User.objects.filter(username=username , user_Type=userType).exists() ):
+                    if(userType=='HOSADMIN'):
+                        return redirect('homeHospital')
+                    elif(userType=='DOCTOR'):
+                        return redirect('homeDoctor')
+                    elif(userType=='PATIENT'):
+                        return redirect('homePatient')
+                    else:
+                        print("type error")
+                 else:
+                     #sending no combination message
+                    messages.error(request, 'Invalid user combination.')
+                    return render(request, 'login.html')
                     
             else:
                 #sending error message
@@ -207,18 +227,17 @@ def activate(request, uidb64, token):
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
-
         #making user active
         user.is_active = True
         user.save()
-
         messages.success(request, 'Thank you for your email confirmation. Now you can login your account.')
         return redirect('UserLogin')
+        
     else:
-
         messages.error(request, 'Activation link is invalid! ')
+        return redirect('UserLogin')
+      
     
-    return redirect('UserLogin')
 
 
 
@@ -262,7 +281,7 @@ def resetpasswordlink(request, uidb64, token):
 
         messages.error(request, 'Activation link is invalid!')
     
-    return redirect('login')
+    return redirect('UserLogin')
 
 
 #setting new resetted password 
@@ -279,11 +298,11 @@ def passwordresetconfirm(request, userid, token):
             u.set_password(password)
             u.save()
             messages.success(request, 'Password reseted succesfully , Please login')
-            return redirect('login')
+            return redirect('UserLogin')
         else:
-            return redirect('patient-home')
+            return redirect('home')
      else:
-            return redirect('patient-home')
+            return redirect('home')
 
 
 #resend confirmation mail
@@ -304,7 +323,7 @@ def resend_Email(request):
                     <br />
                     <a href='{url}'> Login here </a>
                     """
-                    url = reverse("login")
+                    url = reverse("UserLogin")
 
                     #already verifed condition
                     messages.error(request, (msg.format(url=url)))
@@ -316,7 +335,7 @@ def resend_Email(request):
                  obj= User.objects.get(email=email)
                  activateEmail(request, obj, email)
                  messages.success(request, "Reverification Mail Has Been sended to your mail id Please verify to login")
-                 return redirect('login')    
+                 return redirect('UserLogin')    
 
 
             #invalid user conditon

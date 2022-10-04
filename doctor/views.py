@@ -7,3 +7,4 @@ from django.http import HttpResponse
 def homeDoctor(request):
 
        return render(request, "doctorApp/home.html")
+
