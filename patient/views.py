@@ -4,8 +4,7 @@ from django.contrib.auth import authenticate,login ,logout ,get_user_model
 from django.contrib.auth.decorators import login_required
 from userSystem.models import User,CustomUser
 from .models import Patient
-from hospital import *
-from hospital.models import Hospital
+from hospital.models import *
 from django.views.decorators.cache import never_cache
 from django.http import JsonResponse
 import json
@@ -70,11 +69,16 @@ def patientChooseDoctor(request):
 
         doctorDetails=[]
         for i in doctorDetailsID:
+            #doctor user id
+            doctorUserId=Doctor.objects.values_list('userID_id', flat=True).get(id=i['doctor_id']) 
             #getting doctor name and timeslot
-            doc ={'doctorName':Doctor.objects.values_list('name', flat=True).get(id=i['doctor_id']) , 'doctorSlot':Timing.objects.values_list('timeslot', flat=True).get(id=i['timeslot_id']),
+            doc ={'doctorName':CustomUser.objects.values_list('first_name', flat=True).get(id=doctorUserId), 'doctorSlot':Timing.objects.values_list('timeslot', flat=True).get(id=i['timeslot_id']),
             'doctorDep':Department.objects.values_list('name', flat=True).get(id=i['department_id'])}
-            doctorDetails.append(doc)
 
+            # doc ={'doctorName':Doctor.objects.values_list('name', flat=True).get(id=i['doctor_id']) , 'doctorSlot':Timing.objects.values_list('timeslot', flat=True).get(id=i['timeslot_id']),
+            # 'doctorDep':Department.objects.values_list('name', flat=True).get(id=i['department_id'])}
+            doctorDetails.append(doc)
+       
         context={
             'patient':patient, 
             'selectedHosDistrict':selectedHosDistrict , 
@@ -82,7 +86,7 @@ def patientChooseDoctor(request):
             'selectedHosName':selectedHosName,
             'selectedHosDepartment':selectedHosDepartment,
             'doctorDetails':json.dumps(doctorDetails)}
-        return render(request, 'patientSystem_Templates\patient_ChooseDoctor.html',context)
+        return render(request, 'patientApp\chooseDoctor.html',context)
 
 #choose doctor for Patient
 #Redirect unauthorized user's from accessing home page
@@ -146,12 +150,14 @@ def getHospitalDepartment(request):
         gethospital_id = getdata['hospital_id']
         #geting all ids from list 
         getdepartment_ids =  List.objects.filter(hospital_id=gethospital_id).values('department_id')
+        
         getdepartmentValue=[]
 
         #appending values from department table
 
         for i in getdepartment_ids:
             getdepartmentValue.append( list(Department.objects.filter(id=i['department_id']).values('name')) )
+       
      
     
         data={

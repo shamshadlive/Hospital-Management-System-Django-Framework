@@ -6,16 +6,17 @@
 New Booking
 {% endblock title %}
 
-{% block scriptFiles %}
+{% block scripts %}
 
 
-<script src="{% static 'patientSystemStatic/js/chooseDoctor.js' %}"></script> 
+<script src="{% static 'patientApp\js\chooseDoctor.js' %}"></script> 
 <script> doctor = JSON.parse('{{doctorDetails | safe}}')
     selectedHosDepartment='{{selectedHosDepartment  | safe}}'
 </script>
 
 
     <script>
+       
 
         $(document).ready(function() {
           
@@ -25,11 +26,27 @@ New Booking
                     minDate: 1 });
             });
         })
-     </script>
+        
+    </script>
 
 
-{% endblock scriptFiles %}
+{% endblock scripts %}
+
+{% block navbar %}
+
+<section id="navbar">
+
+    {%include 'patientApp/navbar.html'%}
+ 
+</section>
+
+
+{% endblock navbar %}
+
+
+
 {% block content %}
+
 
   <!-- main div for center align -->
   <div class="d-flex justify-content-center">
@@ -44,7 +61,7 @@ New Booking
 
         <div class="row text-center  ">
 
-            <h3 class="bottomFont mt-2">To schedule an appointment, please fill out the information below.</h3>
+            <h3 class="bottom_font mt-2">To schedule an appointment, please fill out the information below.</h3>
            
         </div>
 
@@ -54,16 +71,16 @@ New Booking
         </div>
         <div class="row border-bottom  m-2">
                 <div class=" col-12 ">
-                    <h3 class="bottomFont"> District : <b> {{selectedHosDistrict}}</b>  </h3>
+                    <h3 class="bottom_font"> District : <b> {{selectedHosDistrict}}</b>  </h3>
                 </div>
                 <div class=" col-12  ">
-                    <h3 class="bottomFont">Type Of Hospital : <b> {{selectedHosType}} </b></h3>
+                    <h3 class="bottom_font">Type Of Hospital : <b> {{selectedHosType}} </b></h3>
                 </div>
                 <div class=" col-12 ">
-                    <h3 class="bottomFont"> Name Of Hospital : <b> {{selectedHosName}}</b>  </h3>
+                    <h3 class="bottom_font"> Name Of Hospital : <b> {{selectedHosName}}</b>  </h3>
                 </div>
                 <div class=" col-12  ">
-                    <h3 class="bottomFont">Department To Book : <b> {{selectedHosDepartment}} </b></h3>
+                    <h3 class="bottom_font">Department To Book : <b> {{selectedHosDepartment}} </b></h3>
                 </div>
         </div>
         <form action="{% url 'patientSaveBooking' dep=selectedHosDepartment hosname=selectedHosName uhid=patient.patient_uhid  %}" method="post" >
@@ -122,7 +139,7 @@ New Booking
 
 
 
-
+  <input type="button" onclick=fff()  class="btn btn-dark"  value="check Now">
        
 
   
