@@ -6,6 +6,7 @@ from django.contrib import messages
 from .models import CustomUser
 from patient.models import Patient
 from hospital.models import HospitalAdmin
+from doctor.models import *
 from .forms import *
 from django.contrib.auth.models import User
 
@@ -83,11 +84,21 @@ def checkEmail(request):
 
 #register user
 def register(request):
+    #get user form
+    user_form = CreateUserForm()
 
-        #get user form
-        user_form = CreateUserForm()
+     #blocking admin
+    if (request.user.is_superuser) and (request.user.is_authenticated):
+            return HttpResponse("Got You Admin")
+    elif (User.objects.filter(user_Type="PATIENT").exists()) and (request.user.is_authenticated):
+            return redirect('homePatient')
+    elif (User.objects.filter(user_Type="DOCTOR").exists()) and (request.user.is_authenticated):
+            return redirect('homeDoctor')
+    elif (User.objects.filter(user_Type="HOSADMIN").exists()) and (request.user.is_authenticated):
+            return redirect('homeHospital')
+
        
-        if request.method == 'POST':
+    elif request.method == 'POST':
             user_form = CreateUserForm(request.POST)
        
             #checking both conditions
@@ -108,31 +119,29 @@ def register(request):
 
                     hospitalAdmin=HospitalAdmin.objects.create(userID=user)
                     hospitalAdmin.save()
-                    return redirect('loginHospital')
-                    
 
                 elif  userType=='PATIENT':
 
                      patient_uhid=100000000000+(user.id)
                      patient=Patient.objects.create(userID=user,patient_uhid=patient_uhid)
                      patient.save()
-                     return redirect('loginPatient')
 
                 elif  userType=='DOCTOR':
                      doctor=Doctor.objects.create(userID=user)
                      doctor.save()
-                     return redirect('loginDoctor')
                 else:
                     pass
+                return redirect('UserLogin')
                     
             else:
 
                 messages.error(request, 'Please check all the field before submission')
+              
              
       
-        context={'user_form': user_form}
+    context={'user_form': user_form}
 
-        return render(request, 'register.html',context)
+    return render(request, 'register.html',context)
 
 
 # #login patient
@@ -140,14 +149,15 @@ def UserLogin(request):
 
   
     #blocking admin
-    if (request.user.is_superuser) and (request.user.is_authenticated):
+    if ((request.user.is_superuser) and (request.user.is_authenticated)):
             return HttpResponse("Got You Admin")
-    
-    elif (User.objects.filter(user_Type="PATIENT").exists()) and (request.user.is_authenticated):
+
+            #type and loged user checking and moving to current pages
+    elif ((request.user.is_authenticated)and (User.objects.filter(user_Type="DOCTOR" , username=request.user.username).exists()) ) :
+             return redirect('homeDoctor')
+    elif( (request.user.is_authenticated) and (User.objects.filter(user_Type="PATIENT",username=request.user.username).exists()) )  :
             return redirect('homePatient')
-    elif (User.objects.filter(user_Type="DOCTOR").exists()) and (request.user.is_authenticated):
-            return redirect('homeDoctor')
-    elif (User.objects.filter(user_Type="HOSADMIN").exists()) and (request.user.is_authenticated):
+    elif((request.user.is_authenticated) and  (User.objects.filter(user_Type="HOSADMIN",username=request.user.username).exists()) ) :
             return redirect('homeHospital')
   
     elif request.method == 'POST':
@@ -155,6 +165,7 @@ def UserLogin(request):
             username = request.POST.get('inputUsername') 
             password = request.POST.get('inputPassword') 
             userType = request.POST.get('userType') 
+            print(userType)
             user = authenticate(request, username=username , password=password)
             #sending error message with link
             msg = """

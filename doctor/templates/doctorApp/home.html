@@ -1,1 +1,39 @@
-this is doctor home
+{% extends "doctorApp/base.html" %}
+
+{% block title %}
+Doctor  Home
+{% endblock title %}
+
+{% block navbar %}
+
+<section id="navbar">
+
+    {%include 'doctorApp/navbar.html'%}
+ 
+  </section>
+
+
+{% endblock navbar %}
+
+
+{% block content %}
+    
+
+this is Doctor home <br>
+
+
+
+{{user.first_name}}
+{{user.id}}
+
+<a href="{% url 'logoutuser' %}">logout</a>    
+        
+       
+{% endblock content %}
+
+
+
+
+
+
+

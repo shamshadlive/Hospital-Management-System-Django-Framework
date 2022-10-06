@@ -150,7 +150,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_FROM = 'codiuminfotech@gmail.com'
 EMAIL_HOST_USER = 'codiuminfotech@gmail.com'
-EMAIL_HOST_PASSWORD = 'kfmqvfxpquxlhaht'
+EMAIL_HOST_PASSWORD = 'lnpwwqxgyyijmtta'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

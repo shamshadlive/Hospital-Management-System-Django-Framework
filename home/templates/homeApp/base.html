@@ -29,25 +29,34 @@
        
       <script src="{% static 'homeApp/js/app.js' %}"></script>   
        
-      
+      {% block scripts %}
+
+      {% endblock scripts %}
+  
 
     
     </head>
-    <body style="background-color:#accffe ;">
 
-        <section id="navbar">
+  <body style="background-color:#accffe ;">
 
-          {%include 'navbar.html'%}
-       
-        </section>
+  
 
-        {% block content %}
-    
-    
-        
-       
-        {% endblock content %}
-       
+
+      {% block navbar %}
+  
+  
+      
+     
+      {% endblock navbar %}
+
+
+
+      {% block content %}
+  
+  
+      
+     
+      {% endblock content %}
 
 
         

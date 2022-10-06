@@ -21,8 +21,8 @@
 
 .bottom_font{
 
-  
-    font-family: poppins;
-    font-weight: 300;
-    letter-spacing: 0.1rem;
+    font-family: 'Roboto';
+    font-size: large;
+    color: black;
+    font-weight: 400;
 }

@@ -1,0 +1,112 @@
+{% extends "patientApp/base.html" %}
+{% load static %}
+
+{% block title %}
+
+Sucessfull Booking
+{% endblock title %}
+
+{% block scripts %}
+
+<script>
+
+    window.onload = function(){
+  
+        (function(){
+          var counter = 5;
+        
+          setInterval(function() {
+            counter--;
+            if (counter >= 0) {
+              span = document.getElementById("count");
+              span.innerHTML = counter;
+            }
+            // Display 'counter' wherever you want to display it.
+            if (counter === 0) {
+                window.location.href = "{% url 'patientViewBooking' %}";
+                clearInterval(counter);
+            }
+            
+          }, 1000);
+            
+        })();
+          
+        }
+
+</script>
+ 
+<style>
+   
+    *{padding:0;margin:0}.wrapper{height:100vh;display:flex;justify-content:center;align-items:center;background-color:#eee}.checkmark__circle{stroke-dasharray: 166;stroke-dashoffset: 166;stroke-width: 2;stroke-miterlimit: 10;stroke: #7ac142;fill: none;animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards}.checkmark{width: 56px;height: 56px;border-radius: 50%;display: block;stroke-width: 2;stroke: #fff;stroke-miterlimit: 10;margin: 10% auto;box-shadow: inset 0px 0px 0px #7ac142;animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both}.checkmark__check{transform-origin: 50% 50%;stroke-dasharray: 48;stroke-dashoffset: 48;animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards}@keyframes stroke{100%{stroke-dashoffset: 0}}@keyframes scale{0%, 100%{transform: none}50%{transform: scale3d(1.1, 1.1, 1)}}@keyframes fill{100%{box-shadow: inset 0px 0px 0px 30px #7ac142}}
+    body{
+    
+}
+</style> 
+
+
+{% endblock scripts %}
+
+{% block navbar %}
+
+<section id="navbar">
+
+    {%include 'patientApp/navbar.html'%}
+ 
+  </section>
+
+
+{% endblock navbar %}
+{% block content %}
+    
+
+
+  <!-- main div for center align -->
+  <div class="d-flex justify-content-center">
+
+    <div class="container-fluid  col-xl-10  col-12 m-5" style="background-color: white; ">
+        
+        <div class="row bg-dark p-3 text-center ">
+                <i class="bi bi-patch-check-fill fs-1 " style="color: White !important;"></i>
+            <h4 class="heading_font " style="color: White !important;"> Booking Sucess </h4>
+
+        </div>
+
+
+        <div class=""> <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"> <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/> <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        </div>
+        
+        {% if messages%}
+        {% for message in messages %}
+        <br>
+          
+        <center>
+             <h4>  {{message |safe }} , You will be redirected within <span id="count">5</span> secs , If Not 
+                <a href="{% url 'patientViewBooking' %}" style="text-decoration: none;"> Click Here </a>
+            </h4> 
+        </center>
+
+        {% endfor %}
+        {% endif %}
+
+
+
+
+
+
+       
+           
+    
+
+        </div>
+        
+       
+</div>
+</div>
+
+
+
+
+
+{% endblock content %}
+    

@@ -17,6 +17,7 @@
 
          // intializing a set  for loading all hospital name  in unique
          const doctorName = new Set();
+         const doctorId = new Set();
 
         doctorData.map(doctorData=>
         {
@@ -25,6 +26,7 @@
             {
 
                 doctorName.add(doctorData.doctorName)
+                doctorId.add(doctorData.doctorID)
             }
             
         })
@@ -33,7 +35,12 @@
         //accessing set and with foreach adding each option
         doctorName.forEach(eachDocName => {
 
-            $('#id_DoctorName').append(`<option value="${eachDocName}"> ${eachDocName} </option>`)
+            doctorId.forEach(eachDocId => {
+
+                $('#id_DoctorName').append(`<option value="${eachDocId}"> ${eachDocName} </option>`)
+                });
+
+           
             });
 
 
@@ -50,7 +57,7 @@
         var doctorData = doctor;
         doctorData.map(doctorData=>
         {
-          (doctorData.doctorName==selectedDoctor)?
+          (doctorData.doctorID==selectedDoctor)?
             (doctorData.doctorSlot=='NULL')?
                 $('#id_DoctorTimeSlot').append(`<option value="" disabled > Not Available </option>`):
                     $('#id_DoctorTimeSlot').append(`<option value="${doctorData.doctorSlot}"> ${doctorData.doctorSlot} </option>`):""   

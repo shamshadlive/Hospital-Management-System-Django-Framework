@@ -8,26 +8,26 @@ New Booking
 
 {% block scripts %}
 
+<script>
+       
 
+    $(document).ready(function() {
+      
+        $(function() {
+            $( "#id_AppointDate" ).datepicker({ 
+                dateFormat: 'yy-mm-dd' ,
+                minDate: 1 });
+        });
+    })
+    
+</script>
 <script src="{% static 'patientApp\js\chooseDoctor.js' %}"></script> 
 <script> doctor = JSON.parse('{{doctorDetails | safe}}')
     selectedHosDepartment='{{selectedHosDepartment  | safe}}'
 </script>
 
 
-    <script>
-       
-
-        $(document).ready(function() {
-          
-            $(function() {
-                $( "#id_AppointDate" ).datepicker({ 
-                    dateFormat: 'yy-mm-dd' ,
-                    minDate: 1 });
-            });
-        })
-        
-    </script>
+   
 
 
 {% endblock scripts %}

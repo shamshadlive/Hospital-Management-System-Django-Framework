@@ -1,4 +1,25 @@
-this is base home <br>
+{% extends "homeApp/base.html" %}
+
+
+
+
+{% block navbar %}
+
+<section id="navbar">
+
+    {%include 'homeApp/navbar.html'%}
+ 
+  </section>
+
+
+{% endblock navbar %}
+
+
+{% block content %}
+  
+  
+
+      
 
 
 
@@ -9,12 +30,15 @@ this is base home <br>
 
 
 
-<br><br><br><br><br>
 
 
-<h3> user system common</h3>  <br>
-<a href="{% url 'UserLogin' %}" style="text-decoration: none;"> login   </a> <br>
-<a href="{% url 'register' %}" style="text-decoration: none;"> Register    </a> <br>
+
+
+
+     
+{% endblock content %}
+
+
 
 
 
