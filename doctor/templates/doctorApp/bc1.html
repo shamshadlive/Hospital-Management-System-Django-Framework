@@ -1,0 +1,220 @@
+
+{% extends "doctorApp/base.html" %}
+{% load crispy_forms_tags %} 
+{% load static %}
+
+{% block title %}
+
+Booking Details
+{% endblock title %}
+
+
+
+
+{% block scripts %}
+
+<script src="{% static 'doctorApp/js/sorttable.js' %}"></script> 
+<script src="{% static 'doctorApp/js/myappointment.js' %}"></script> 
+
+{% endblock scripts %}
+{% block navbar %}
+
+<section id="navbar">
+
+    {%include 'doctorApp/navbar.html'%}
+ 
+</section>
+
+
+{% endblock navbar %}
+{% block content %}
+
+
+
+  <!-- main div for center align -->
+  <div class="d-flex justify-content-center">
+
+    <div class="container-fluid  col-xl-12  col-12 m-5" style="background-color: white; ">
+        
+        <div class="row bg-dark p-3 text-center ">
+                <i class="bi bi-calendar-week-fill fs-1 " style="color: White !important;"></i>
+            <h4 class="heading_font " style="color: White !important;">Your Appointment Details </h4>
+
+        </div>
+
+        <div class="row text-center divcolor  ">
+
+            <h3 class="bottom_font mt-2">All your Appointment details are shown here </h3>
+
+        </div>
+
+        <!-- Upcoming Bookings -->
+        <div class="container">
+
+            <div class="row border-bottom  ">
+               <h3 class="heading_font mt-2">Upcoming Bookings</h3>
+           </div>
+               <div   class=" col-12 row divborder ">
+                <table id="upcomingBookingTable" class="css-serial">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Patient Name</th>
+                        <th>Time of Apoinment</th>
+                        <th>Department</th>
+                        <th>Hospital</th>
+                        <th >Apoinment Date</th>
+                        <th>Apoinment Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for m in eachBookingList  %}            
+                        {% if m.patientstate == 'PENDING' %}
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>{{m.patientName}}</td>
+                                <td>{{m.timeslot}}</td>
+                                <td>{{m.depName}}</td>
+                                <td>{{m.hospitalName}}</td>
+                                <td>{{m.appointmentDate}}</td>
+                                <td>{{m.patientstate}}</td>
+                                <td>
+                                    <a href="{% url 'doctorMarkCompeleted' m.bkTableToken %}">
+                                        <button type='button'  class='btn btn-success'>Mark As Completed</button></a>
+                                       
+                                </td>
+                            </tr>
+                        {% endif %} 
+                    {% endfor %}
+                </tbody>  
+                </table>
+               </div>
+
+
+    <!-- Comppleted Bookings -->        
+    <div class="row border-bottom  ">
+        <h3 class="heading_font mt-2">Completed Bookings</h3>
+    </div>
+        <div class=" col-12 row divborder">   
+            <table id="completedBookingTable" class="css-serial">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Patient Name</th>
+                    <th>Time of Apoinment</th>
+                    <th>Department</th>
+                    <th>Hospital</th>
+                    <th>Apoinment Date</th>
+                    <th>Apoinment Status</th>
+                    <th>Action</th>
+                    <th>Uploaded Documents</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in eachBookingList  %}   
+                    {% if m.patientstate == 'COMPLETED' %}
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>{{m.patientName}}</td>
+                            <td>{{m.timeslot}}</td>
+                            <td>{{m.depName}}</td>
+                            <td>{{m.hospitalName}}</td>
+                            <td>{{m.appointmentDate}}</td>
+                            <td>{{m.patientstate}}</td>
+                            <td>
+                                <a href="{% url 'doctorMarkPending' m.bkTableToken %}">
+                                    <button type='button'  class='btn btn-warning m-1'>Change To Pending</button></a>
+                                <a href="{% url 'doctorMarkDeleted' m.bkTableToken %}">
+                                    <button type='button'  class='btn btn-danger'>Delete Booking</button></a>
+
+                                    <form method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                          {{form|crispy}}
+                                          <input type="text" value="{{m.bkTableToken}}" name="bkTableToken" hidden>
+                                            <button class="btn btn-dark my-4" type="submit">Upload</button>
+                                      </form>
+                                </td>
+                            <td><a href="/media/{{m.documents}}">{{m.documents}}</a></td>
+                        </tr>
+                    {% endif %} 
+                {% endfor %}
+            </tbody>  
+            </table>
+              
+                
+        
+        
+        </div>
+
+
+     <!-- Deleted Bookings -->        
+                <div class="row border-bottom  ">
+                    <h3 class="heading_font mt-2">Deleted Bookings</h3>
+                </div>
+                    <div class=" col-12 row divborder ">
+                        <table id="deletedBookingTable" class="css-serial">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Patient Name</th>
+                                <th>Time of Apoinment</th>
+                                <th>Department</th>
+                                <th>Hospital</th>
+                                <th >Apoinment Date</th>
+                                <th>Apoinment Status</th>
+                            </tr>
+                        </thead>
+                          
+                        <tbody>
+                            {% for m in eachBookingList  %}   
+                                {% if m.patientstate == 'DELETED' %}
+                                
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>{{m.patientName}}</td>
+                                        <td>{{m.timeslot}}</td>
+                                        <td>{{m.depName}}</td>
+                                        <td>{{m.hospitalName}}</td>
+                                        <td>{{m.appointmentDate}}</td>
+                                        <td>{{m.patientstate}}</td>
+                                    </tr>
+                                {% endif %} 
+                            {% endfor %}
+                        </tbody>
+                        </table> 
+                    </div>
+            
+
+   
+          
+                </div>
+            </div>
+        </div>
+    
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,145 @@
+
+{% extends "patientApp/base.html" %}
+
+{% load static %}
+
+{% block title %}
+
+Booking Details
+{% endblock title %}
+
+{% block scripts %}
+
+ <script> bookinglist = JSON.parse('{{eachBookingList | safe}}')</script> 
+ <script src="{% static 'doctorApp/js/myappointment.js' %}"></script> 
+
+
+ <script>
+
+   var docCreateUrlMarkCompeleted= "{% url 'docCreateUrlMarkCompeleted'  %}"
+   var docCreateUrlMarkPending= "{% url 'docCreateUrlMarkPending'  %}"
+   var docCreateUrlMarkDeleted= "{% url 'docCreateUrlMarkDeleted'  %}"
+
+
+</script>
+
+
+
+{% endblock scripts %}
+{% block navbar %}
+
+<section id="navbar">
+
+    {%include 'doctorApp/navbar.html'%}
+ 
+  </section>
+
+
+{% endblock navbar %}
+{% block content %}
+
+  <!-- main div for center align -->
+  <div class="d-flex justify-content-center">
+
+        <div class="container-fluid  col-xl-12  col-12 m-5" style="background-color: white; ">
+            
+            <div class="row bg-dark p-3 text-center ">
+                    <i class="bi bi-calendar-week-fill fs-1 " style="color: White !important;"></i>
+                <h4 class="heading_font " style="color: White !important;">Your Appointment Details </h4>
+
+            </div>
+
+            <div class="row text-center  ">
+
+                <h3 class="bottom_font mt-2">All your Appointment details are shown here </h3>
+
+            </div>
+
+            <!-- Upcoming Bookings -->
+            <div class="container">
+
+                 <div class="row border-bottom  ">
+                    <h3 class="heading_font mt-2">Upcoming Bookings</h3>
+                </div>
+                    <div  id="upcomingBookingTable" class=" col-12 row  ">
+                    
+
+                    </div>
+
+             <!-- Comppleted Bookings -->        
+                 <div class="row border-bottom  ">
+                    <h3 class="heading_font mt-2">Completed Bookings</h3>
+                </div>
+                    <div  id="completedBookingTable" class=" col-12 row border-bottom ">
+                    
+
+                    </div>
+
+                <!-- Deleted Bookings -->        
+                <div class="row border-bottom  ">
+                    <h3 class="heading_font mt-2">Deleted Bookings</h3>
+                </div>
+                    <div  id="deletedBookingTable" class=" col-12 row border-bottom ">
+                    
+
+                    </div>
+            
+            
+            
+            
+            </div>
+           
+       
+
+                
+
+        </div>
+    </div>
+
+
+
+
+
+
+       
+
+  
+    
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+myAppointmentDoctor
+{{doctorId}}
+
+
+{{eachBookingList}}

@@ -179,7 +179,7 @@ def patientViewBooking(request):
     patientId = Patient.objects.values_list('id', flat=True).get(userID_id=userid)
 
     #getting booking list of that patient
-    bookingList = list(BookingPatient.objects.filter(patient_id=patientId).values('lists_id','state','appointmentDate').order_by('appointmentDate') )
+    bookingList = list(BookingPatient.objects.filter(patient_id=patientId).values('id','lists_id','state','appointmentDate','documents').order_by('appointmentDate') )
     #getting all ids
     eachListID=[]
     for i in bookingList:
@@ -188,10 +188,12 @@ def patientViewBooking(request):
                         'department_id':List.objects.values_list('department_id', flat=True).get(id=i['lists_id']),
                         'hospital_id':List.objects.values_list('hospital_id', flat=True).get(id=i['lists_id']),
                         'state':i['state'],
-                        'appointmentDate':str(i['appointmentDate'])
+                        'documents':i['documents'],
+                        'appointmentDate':str(i['appointmentDate']),
+                        'bkTableToken':i['id'],
                          }
             eachListID.append(eachListIDs)   
-   
+    print(eachListID)
     finalBookingList=[]
     #getting all values
     for j in eachListID:
@@ -205,12 +207,13 @@ def patientViewBooking(request):
                         'doctorDep':Department.objects.values_list('name', flat=True).get(id=j['department_id']),
                         'hospital':Hospital.objects.values_list('name', flat=True).get(id=j['hospital_id']),
                         'state':j['state'],
-                        'appointmentDate':str(j['appointmentDate'])
+                        'documents':j['documents'],
+                        'appointmentDate':str(j['appointmentDate']),
+                        'bkTableToken':j['bkTableToken'],
                         }
             finalBookingList.append(eachListName)
-
     context={
-            'patient':patient,'bookinglist':json.dumps(finalBookingList)}
+            'patient':patient,'bookinglist':finalBookingList}
 
     return render(request, 'patientApp/ViewBooking.html',context)
 
@@ -227,3 +230,55 @@ def patientMyProfile(request):
 
     return render(request, 'patientSystem_Templates\patient_MyProfile.html',context)
 
+
+
+#viewboooking bcp
+
+
+# #Patient Profile Booking
+# #Redirect unauthorized user's from accessing home page
+# @login_required(login_url='login')
+# def patientViewBooking(request):
+
+#     userid=request.user.id
+#     #getting basic patient details
+#     patient = Patient.objects.get(userID_id=userid)
+
+#     #getting patient ID
+#     patientId = Patient.objects.values_list('id', flat=True).get(userID_id=userid)
+
+#     #getting booking list of that patient
+#     bookingList = list(BookingPatient.objects.filter(patient_id=patientId).values('lists_id','state','appointmentDate').order_by('appointmentDate') )
+#     #getting all ids
+#     eachListID=[]
+#     for i in bookingList:
+#             eachListIDs ={'doctor_id':List.objects.values_list('doctor_id', flat=True).get(id=i['lists_id']),
+#                         'timeslot_id':List.objects.values_list('timeslot_id', flat=True).get(id=i['lists_id']),
+#                         'department_id':List.objects.values_list('department_id', flat=True).get(id=i['lists_id']),
+#                         'hospital_id':List.objects.values_list('hospital_id', flat=True).get(id=i['lists_id']),
+#                         'state':i['state'],
+#                         'appointmentDate':str(i['appointmentDate'])
+#                          }
+#             eachListID.append(eachListIDs)   
+   
+#     finalBookingList=[]
+#     #getting all values
+#     for j in eachListID:
+#             #userid of doctor
+#             doctorUserId=Doctor.objects.values_list('userID_id', flat=True).get(id=j['doctor_id'])  
+          
+           
+#              #getting doctor name and timeslot
+#             eachListName ={ 'doctorName':CustomUser.objects.values_list('first_name', flat=True).get(id=doctorUserId), 
+#                         'doctorSlot':Timing.objects.values_list('timeslot', flat=True).get(id=j['timeslot_id']),
+#                         'doctorDep':Department.objects.values_list('name', flat=True).get(id=j['department_id']),
+#                         'hospital':Hospital.objects.values_list('name', flat=True).get(id=j['hospital_id']),
+#                         'state':j['state'],
+#                         'appointmentDate':str(j['appointmentDate'])
+#                         }
+#             finalBookingList.append(eachListName)
+
+#     context={
+#             'patient':patient,'bookinglist':json.dumps(finalBookingList)}
+
+#     return render(request, 'patientApp/ViewBooking.html',context)

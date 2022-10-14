@@ -1,4 +1,6 @@
+
 {% extends "patientApp/base.html" %}
+{% load crispy_forms_tags %} 
 {% load static %}
 
 {% block title %}
@@ -6,15 +8,13 @@
 Booking Details
 {% endblock title %}
 
+
+
+
 {% block scripts %}
 
- <script> bookinglist = JSON.parse('{{bookinglist | safe}}')</script> 
- <script src="{% static 'patientApp/js/patientMyBooking.js' %}"></script> 
-
-<style>
-
-</style>
-
+<script src="{% static 'doctorApp/js/sorttable.js' %}"></script> 
+<script src="{% static 'patientApp/js/patientMyBooking.js' %}"></script> 
 
 {% endblock scripts %}
 {% block navbar %}
@@ -23,70 +23,190 @@ Booking Details
 
     {%include 'patientApp/navbar.html'%}
  
-  </section>
+</section>
 
 
 {% endblock navbar %}
 {% block content %}
 
+
+
   <!-- main div for center align -->
   <div class="d-flex justify-content-center">
 
-        <div class="container-fluid  col-xl-10  col-12 m-5" style="background-color: white; ">
-            
-            <div class="row bg-dark p-3 text-center ">
-                    <i class="bi bi-calendar-week-fill fs-1 " style="color: White !important;"></i>
-                <h4 class="heading_font " style="color: White !important;">Your Booking Details </h4>
-
-            </div>
-
-            <div class="row text-center  ">
-
-                <h3 class="bottomFont mt-2">All your booking details are shown here </h3>
-
-            </div>
-
-            <!-- Upcoming Bookings -->
-            <div class="container">
-
-                 <div class="row border-bottom  ">
-                    <h3 class="heading_font mt-2">Upcoming Bookings</h3>
-                </div>
-                    <div  id="upcomingBookingTable" class=" col-12 row  ">
-                    
-
-                    </div>
-
-                    
-                 <div class="row border-bottom  ">
-                    <h3 class="heading_font mt-2">Completed Bookings</h3>
-                </div>
-                    <div  id="completedBookingTable" class=" col-12 row border-bottom ">
-                    
-
-                    </div>
-            
-            
-            
-            </div>
-           
-       
-
-                
+    <div class="container-fluid  col-xl-12  col-12 m-5" style="background-color: white; ">
+        
+        <div class="row bg-dark p-3 text-center ">
+                <i class="bi bi-calendar-week-fill fs-1 " style="color: White !important;"></i>
+            <h4 class="heading_font " style="color: White !important;">Your Booking Details </h4>
 
         </div>
+
+        <div class="row text-center divcolor  ">
+
+            <h3 class="bottom_font mt-2">All your Appointment details are shown here </h3>
+
+        </div>
+
+        <!-- Upcoming Bookings -->
+        <div class="container">
+
+            <div class="row border-bottom  ">
+               <h3 class="heading_font mt-2">Upcoming Bookings</h3>
+           </div>
+               <div   class=" col-12 row divborder ">
+                <table id="upcomingBookingTable" class="css-serial">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Doctor Name</th>
+                        <th>Time of Apoinment</th>
+                        <th>Department</th>
+                        <th>Hospital</th>
+                        <th >Apoinment Date</th>
+                        <th>Apoinment Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for m in bookinglist  %}            
+                        {% if m.state == 'PENDING' %}
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>{{m.doctorName}}</td>
+                                <td>{{m.doctorSlot}}</td>
+                                <td>{{m.doctorDep}}</td>
+                                <td>{{m.hospital}}</td>
+                                <td>{{m.appointmentDate}}</td>
+                                <td>{{m.state}}</td>
+                                <td>
+                                    <a href="{% url 'patientMarkDeleted' m.bkTableToken %}">
+                                        <button type='button'  class='btn btn-success'>Delete Booking</button></a>
+                                       
+                                </td>
+                            </tr>
+                        {% endif %} 
+                    {% endfor %}
+                </tbody>  
+                </table>
+               </div>
+
+
+    <!-- Comppleted Bookings -->        
+    <div class="row border-bottom  ">
+        <h3 class="heading_font mt-2">Completed Bookings</h3>
     </div>
+        <div class=" col-12 row divborder">   
+            <table id="completedBookingTable" class="css-serial">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Doctor Name</th>
+                    <th>Time of Apoinment</th>
+                    <th>Department</th>
+                    <th>Hospital</th>
+                    <th>Apoinment Date</th>
+                    <th>Apoinment Status</th>
+                    <th>Uploaded Documents</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in bookinglist  %}   
+                    {% if m.state == 'COMPLETED' %}
+                        <tr>
+                                <td>&nbsp;</td>
+                                <td>{{m.doctorName}}</td>
+                                <td>{{m.doctorSlot}}</td>
+                                <td>{{m.doctorDep}}</td>
+                                <td>{{m.hospital}}</td>
+                                <td>{{m.appointmentDate}}</td>
+                                <td>{{m.state}}</td>
+                            <td>
+                            {% if m.documents %}
+
+                            <a href="/media/{{m.documents}}"> Prescription</a>
+                             </td>
+                                
+                            {% endif  %}
+
+                            <h6>No document Uploaded</h6>
+              
+                        </tr>
+                    {% endif %} 
+                {% endfor %}
+            </tbody>  
+            </table>
+              
+                
+        
+        
+        </div>
 
 
-
-
-
-
-       
-
-  
-
-
+     <!-- Deleted Bookings -->        
+                <div class="row border-bottom  ">
+                    <h3 class="heading_font mt-2">Deleted Bookings</h3>
+                </div>
+                    <div class=" col-12 row divborder ">
+                        <table id="deletedBookingTable" class="css-serial">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Doctor Name</th>
+                                <th>Time of Apoinment</th>
+                                <th>Department</th>
+                                <th>Hospital</th>
+                                <th>Apoinment Date</th>
+                                <th>Apoinment Status</th>
+                            </tr>
+                        </thead>
+                          
+                        <tbody>
+                            {% for m in bookinglist  %}   
+                                {% if m.state == 'DELETED' %}
+                                
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>{{m.doctorName}}</td>
+                                        <td>{{m.doctorSlot}}</td>
+                                        <td>{{m.doctorDep}}</td>
+                                        <td>{{m.hospital}}</td>
+                                        <td>{{m.appointmentDate}}</td>
+                                        <td>{{m.state}}</td>
+                                    </tr>
+                                {% endif %} 
+                            {% endfor %}
+                        </tbody>
+                        </table> 
+                    </div>
+ 
+                </div>
+            </div>
+        </div>
+    
 
 
 {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -91,7 +91,8 @@ class List(models.Model):
 class BookingPatient(models.Model):
     state_Choices = (
             ('COMPLETED', 'COMPLETED'),
-            ('PENDING', 'PENDING'),     
+            ('PENDING', 'PENDING'),
+            ('DELETED', 'DELETED'),           
         )
 
     patient=models.ForeignKey(Patient, on_delete=models.CASCADE)
@@ -99,7 +100,13 @@ class BookingPatient(models.Model):
     lists=models.ForeignKey(List, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     appointmentDate=models.DateField()
+    documents = models.FileField(upload_to='hospital/prescription',null=True)
 
+    def delete(self, *args, **kwargs):
+        os.remove(os.path.join(settings.MEDIA_ROOT, self.documents.name))
+        super(Document,self).delete(*args,**kwargs)
+
+    
 
     def __str__(self):
      return f'{self.patient}'
