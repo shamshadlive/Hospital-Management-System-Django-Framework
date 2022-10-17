@@ -3,7 +3,16 @@
 {% block title %}
 User Registration
 {% endblock title %}
+{% block navbar %}
 
+<section id="prenavbar">
+
+    {%include 'homeApp/navbar.html'%}
+ 
+  </section>
+
+
+{% endblock navbar %}
 
 {% block content %}
 
@@ -143,8 +152,8 @@ User Registration
             <!-- Form get with id_email -->
             <div class="row">
                 <div class="input-group mb-3">
-                    <label for="id_userType"> Are You :</label>
-                    <!-- <select required onchange=""  class="form-select" name="userType" id="id_user_Type" > -->
+                    <label for="id_userType"> Register As :</label>
+          
                    
 
                      {{user_form.user_Type}}
@@ -154,8 +163,6 @@ User Registration
                     
 
 
-    
-                    <!-- </select> -->
 
                 </div>
             </div>

@@ -1,0 +1,94 @@
+{% extends "patientApp/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+Patient Home
+{% endblock title %}
+
+{% block navbar %}
+
+<section id="navbar">
+
+    {%include 'patientApp/navbar.html'%}
+ 
+  </section>
+
+
+{% endblock navbar %}
+
+
+{% block content %}
+    
+
+
+<script>
+
+  $( document ).ready(function() {
+    document.getElementById("id_profilepic").style.display = "none";
+  });
+  
+$(document).on("change", "#id_profilepic", function(){ $('#updateUserProPic').submit() });
+
+</script>
+
+
+
+
+
+
+  
+
+       
+ <!-- main div for center align -->
+ <div class="d-flex justify-content-center">
+
+    <div class="container-fluid  col-xl-6  col-12 m-5" style="background-color: white; ">
+    
+
+      <div class="row">
+        <div class="bg-dark p-0 " style="text-align: center;">
+          <img src="{{ user.profilepic.url }}" style="object-fit: cover;
+          width: 5rem;
+          height: 5rem;" class="rounded-circle m-2" >
+          <h4 class="heading_font " style="color: rgb(255, 255, 255) !important;">My Profile </h4>
+</div>
+            <div >
+               
+              <div class="container"  style="text-align: center;">
+                <!--Django Form-->
+                <form method="post" enctype="multipart/form-data" action="{% url 'uploadPatientPropic' user.id %}" id="updateUserProPic">
+                  {% csrf_token %}
+                    {{formset.profilepic |as_crispy_field}}
+                </form>
+              </div>
+              <h4 class="heading_font m-3" style="color: rgb(0, 0, 0) !important;">Name : <b>{{user.first_name}} </b> </h4>
+              <h4 class="heading_font m-3" style="color: rgb(0, 0, 0) !important;">Username : <b>{{user.username}} </b> </h4>
+              <h4 class="heading_font m-3" style="color: rgb(0, 0, 0) !important;">Email Adress : <b>{{user.email}} </b> </h4>
+              <h4 class="heading_font m-3" style="color: rgb(0, 0, 0) !important;">Phone Number : <b>{{user.phone_number}} </b> </h4>
+            </div>
+            
+
+      </div>
+            
+
+
+
+   
+    </div>
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+

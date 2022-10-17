@@ -99,3 +99,28 @@ Booking Details
 
 
 {% endblock content %}
+
+
+
+
+
+
+<tr>
+    <td>&nbsp;</td>
+    <td>{{m.doctorName}}</td>
+    <td>{{m.doctorSlot}}</td>
+    <td>{{m.doctorDep}}</td>
+    <td>{{m.hospital}}</td>
+    <td>{{m.appointmentDate}}</td>
+    <td>{{m.state}}</td>
+<td>
+{% if m.documents %}
+
+<a href="/media/{{m.documents}}"> Prescription</a>
+ </td>
+    
+{% endif  %}
+
+<h6>No document Uploaded</h6>
+
+</tr>

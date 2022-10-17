@@ -13,8 +13,10 @@ Booking Details
 
 {% block scripts %}
 
-<script src="{% static 'doctorApp/js/sorttable.js' %}"></script> 
 <script src="{% static 'patientApp/js/patientMyBooking.js' %}"></script> 
+
+
+
 
 {% endblock scripts %}
 {% block navbar %}
@@ -55,7 +57,7 @@ Booking Details
                <h3 class="heading_font mt-2">Upcoming Bookings</h3>
            </div>
                <div   class=" col-12 row divborder ">
-                <table id="upcomingBookingTable" class="css-serial">
+                <table id="patientupcomingBookingTable" class="css-serial">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -97,7 +99,7 @@ Booking Details
         <h3 class="heading_font mt-2">Completed Bookings</h3>
     </div>
         <div class=" col-12 row divborder">   
-            <table id="completedBookingTable" class="css-serial">
+            <table id="patientcompletedBookingTable" class="css-serial">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -127,9 +129,11 @@ Booking Details
                             <a href="/media/{{m.documents}}"> Prescription</a>
                              </td>
                                 
-                            {% endif  %}
-
+                            {% else %}
                             <h6>No document Uploaded</h6>
+                            {% endif %}
+
+                           
               
                         </tr>
                     {% endif %} 
@@ -148,7 +152,7 @@ Booking Details
                     <h3 class="heading_font mt-2">Deleted Bookings</h3>
                 </div>
                     <div class=" col-12 row divborder ">
-                        <table id="deletedBookingTable" class="css-serial">
+                        <table id="patientdeletedBookingTable" class="css-serial">
                         <thead>
                             <tr>
                                 <th>#</th>

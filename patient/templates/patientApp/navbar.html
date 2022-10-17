@@ -28,6 +28,7 @@
           {{user.first_name}} ( UHID : {{patient.patient_uhid}} )
         </button>
         <ul class= "dropdown-menu dropdown-menu-dark  dropdown-menu-lg-end ">
+          <li><a class="dropdown-item " href="{% url 'patientMyProfile' %}">My Profile</a></li>
           <li><a class="dropdown-item " href="{% url 'patientViewBooking' %}">My Bookings</a></li>
           <li><a class="dropdown-item " href="{% url 'logoutuser' %}">Logout</a></li>
         </ul>

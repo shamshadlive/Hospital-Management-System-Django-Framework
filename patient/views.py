@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login ,logout ,get_user_model
 from django.contrib.auth.decorators import login_required
@@ -10,6 +10,8 @@ from django.http import JsonResponse
 import json
 import datetime
 from django.contrib import messages
+from userSystem.forms import CustomUserProfileForm
+
 # Create your views here.
 
 User = get_user_model()
@@ -19,13 +21,15 @@ User = get_user_model()
 def homePatient(request):
         userid=request.user.id
         patient = Patient.objects.get(userID=userid)
-        context={'patient':patient,}
+        #profile pic
+        formset = CustomUserProfileForm()
+        context={'patient':patient,'formset':formset,}
        
         return render(request, "patientApp/home.html",context)
 
 #New Appointmetnt Patient
 #Redirect unauthorized user's from accessing home page
-@login_required(login_url='login')
+@login_required(login_url='UserLogin')
 @never_cache
 def patientNewbooking(request):
        
@@ -42,7 +46,7 @@ def patientNewbooking(request):
 
 #choose doctor for Patient
 #Redirect unauthorized user's from accessing home page
-@login_required(login_url='login')
+@login_required(login_url='UserLogin')
 @never_cache
 def patientChooseDoctor(request):
 
@@ -89,7 +93,6 @@ def patientChooseDoctor(request):
 
 #choose doctor for Patient
 #Redirect unauthorized user's from accessing home page
-@login_required(login_url='login')
 def patientSaveBooking(request,dep ,hosname ,uhid):
 
     if request.method == 'POST':
@@ -168,7 +171,7 @@ def getHospitalDepartment(request):
 
 #Patient Profile Booking
 #Redirect unauthorized user's from accessing home page
-@login_required(login_url='login')
+@login_required(login_url='UserLogin')
 def patientViewBooking(request):
 
     userid=request.user.id
@@ -193,7 +196,7 @@ def patientViewBooking(request):
                         'bkTableToken':i['id'],
                          }
             eachListID.append(eachListIDs)   
-    print(eachListID)
+    
     finalBookingList=[]
     #getting all values
     for j in eachListID:
@@ -219,17 +222,40 @@ def patientViewBooking(request):
 
 #Patient Profile 
 #Redirect unauthorized user's from accessing 
-@login_required(login_url='login')
+@login_required(login_url='UserLogin')
 def patientMyProfile(request):
 
     userid=request.user.id
     #getting basic patient details
     patient = Patient.objects.get(userID_id=userid)
-    context={
-                'patient':patient}
+    #profile pic
+    formset = CustomUserProfileForm()
+    context={'patient':patient,'formset':formset,}
 
-    return render(request, 'patientSystem_Templates\patient_MyProfile.html',context)
+    return render(request, 'patientApp/myprofile.html',context)
 
+
+
+#mark deleted for booking
+@login_required(login_url='UserLogin')
+def patientMarkDeleted(request,id ):
+       change = BookingPatient.objects.get(id=id)
+       change.state = "DELETED"   # change field
+       change.save() # this will update only
+       change.documents.delete()
+
+       return redirect("patientViewBooking")
+
+
+#user pro pic
+def uploadPatientPropic(request,id):
+        if request.method == "POST":
+            a = CustomUser.objects.get(pk=id)
+            form = CustomUserProfileForm(request.POST, request.FILES,instance=a)
+            if form.is_valid(): 
+                form.save()
+            return redirect("patientMyProfile")
+        
 
 
 #viewboooking bcp

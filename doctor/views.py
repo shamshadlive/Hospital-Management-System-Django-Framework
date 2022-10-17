@@ -9,16 +9,18 @@ import datetime
 from django.contrib import messages
 from hospital.forms import BookingPatientForm
 from hospital.models import BookingPatient
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
-
+@login_required(login_url='UserLogin')
 def homeDoctor(request):
 
        return render(request, "doctorApp/home.html")
 
+@login_required(login_url='UserLogin')
 def myAppointmentDoctor(request):
-
+       #file upload sectiom
        if request.method == "POST":
               bkTableToken=request.POST['bkTableToken']
               a = BookingPatient.objects.get(pk=bkTableToken)
@@ -68,7 +70,7 @@ def myAppointmentDoctor(request):
        return render(request, "doctorApp/myAppointments.html",context)
 
 
- 
+@login_required(login_url='UserLogin') 
 def doctorMarkCompeleted(request,id ):
        change = BookingPatient.objects.get(id=id)
        change.state = "COMPLETED"   # change field
@@ -76,6 +78,8 @@ def doctorMarkCompeleted(request,id ):
 
        return redirect("myAppointmentDoctor")
 
+
+@login_required(login_url='UserLogin')
 def doctorMarkPending(request,id ):
        change = BookingPatient.objects.get(id=id)
        change.state = "PENDING"   # change field
@@ -83,6 +87,7 @@ def doctorMarkPending(request,id ):
 
        return redirect("myAppointmentDoctor")
 
+@login_required(login_url='UserLogin')
 def doctorMarkDeleted(request,id ):
        change = BookingPatient.objects.get(id=id)
        change.state = "DELETED"   # change field
@@ -91,6 +96,8 @@ def doctorMarkDeleted(request,id ):
 
        return redirect("myAppointmentDoctor")
 
+       
+@login_required(login_url='UserLogin')
 def doctordocumentDelete(request,id ):
        change = BookingPatient.objects.get(id=id)
        change.documents.delete()   # change field

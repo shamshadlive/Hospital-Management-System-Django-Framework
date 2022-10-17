@@ -1,7 +1,12 @@
 {% extends "homeApp/base.html" %}
 
 
+{% block scripts %}
+<script>
 
+ 
+</script>
+{% endblock scripts %}
 
 {% block navbar %}
 
@@ -9,20 +14,82 @@
 
     {%include 'homeApp/navbar.html'%}
  
-  </section>
+</section>
 
 
 {% endblock navbar %}
+
 
 
 {% block content %}
   
   
 
+<section id="slider">
+  {%include 'homeApp/sliders.html'%}
+  
+</section>
+
+
+<section id="card">
+
+
+
+    <div class="container p-2">
+
+      <div class="row d-flex justify-content-center">
+
+        <!-- card 1 -->
+        <div class="card m-2" style="width: 22rem;">
+          <img src="media/home/cards/book-appoinment.jpg " class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Book Your Appointment</h5>
+            <p class="card-text">Patients can create booking for the hospitals they like</p>
+            <a href="{% url 'patientNewbooking' %}" class="btn cardbtncolor">Book Appointment</a>
+          </div>
+        </div>
+        
+       <!-- card 2 -->
+        <div class="card m-2" style="width: 22rem;">
+          
+          <img src="media/home/cards/logincard.jpg " class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Login Or Register</h5>
+            <p class="card-text">Login for experience the alll features</p>
+            <a href="{% url 'UserLogin' %}" class="btn cardbtncolor ">Login / Register</a>
+          </div>
+        </div>
+
+         <!-- card 3 -->
+        <div class="card m-2" style="width: 22rem;">
+          <img src="media/home/cards/contactus.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Contact Us</h5>
+            <p class="card-text">Some quick example text to build on the card title </p>
+            <a href="#" class="btn cardbtncolor">Contact us</a>
+          </div>
+        </div>
+
+
+
+
+
+
       
 
+    
+    </div>
 
 
+    
+
+   
+
+  </div>
+
+
+
+</section>
 
 
 

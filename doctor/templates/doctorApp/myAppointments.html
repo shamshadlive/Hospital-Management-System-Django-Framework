@@ -136,6 +136,7 @@ Booking Details
                                       </form>
                                 </td>
                             <td>
+      
                             {% if m.documents %}
 
                             <a href="/media/{{m.documents}}"> Prescription</a>
@@ -143,12 +144,9 @@ Booking Details
                                 <button type='button'  class='btn btn-outline-danger'>
                                     remove
                                 </button></a>   </td>
-                                
-                            {% endif  %}
-
+                            {% else %}
                             <h6>No document Uploaded</h6>
-                            
-                                
+                            {% endif %}
                                 
                         </tr>
                     {% endif %} 

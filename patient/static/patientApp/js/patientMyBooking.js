@@ -1,18 +1,19 @@
 
 $(document).ready( function () {
-    $('#upcomingBookingTable').DataTable({
-        order: [[5, 'desc']],
-        responsive: true
-    });
+        $('#patientupcomingBookingTable').DataTable({
+            order: [[5, 'desc']],
+            responsive: true
+        });
+    
+        $('#patientcompletedBookingTable').DataTable({
+            order: [[5, 'desc']],
+            responsive: true
+        });
+    
+        $('#patientdeletedBookingTable').DataTable({
+            order: [[5, 'desc']],
+        });
+    
+    
+    } );
 
-    $('#completedBookingTable').DataTable({
-        order: [[5, 'desc']],
-        responsive: true
-    });
-
-    $('#deletedBookingTable').DataTable({
-        order: [[5, 'desc']],
-    });
-
-
-} );

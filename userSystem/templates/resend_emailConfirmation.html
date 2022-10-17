@@ -3,7 +3,16 @@
 {% block title %}
 Reverify
 {% endblock title %}
+{% block navbar %}
 
+<section id="prenavbar">
+
+    {%include 'homeApp/navbar.html'%}
+ 
+  </section>
+
+
+{% endblock navbar %}
 
 {% block content %}
 
@@ -44,7 +53,7 @@ Reverify
           </div>
 
           <div class="d-flex mt-2"  >
-            Already Activated ? <a href="{% url 'login' %}" class="ms-2" style="text-decoration: none;
+            Already Activated ? <a href="{% url 'UserLogin' %}" class="ms-2" style="text-decoration: none;
             color: #4192ff;
             font-weight: 500;"> Login Here </a>
  
