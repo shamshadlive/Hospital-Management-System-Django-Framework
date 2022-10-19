@@ -1,1 +1,114 @@
-this is home hospital
+{% extends "hospitalApp/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Hospital Home
+{% endblock title %}
+
+
+{% block scripts %}
+
+
+
+<script src="{% static 'hospitalApp\js\home.js' %}"></script>   
+
+
+
+{% endblock scripts %}
+
+
+
+
+
+
+
+{% block navbar %}
+<section id="navbar">
+
+    {%include 'hospitalApp/navbar.html'%}
+ 
+  </section>
+{% endblock navbar %}
+
+
+
+{% block content %}
+
+
+       
+ <!-- main div for center align -->
+ <div class="d-flex justify-content-center">
+
+  <div class="container-fluid  col-xl-8  col-12 m-5 " style="background-color: white; ">
+  
+
+    <div class="row">
+      <div class="bg-success p-0 " style="text-align: center;">
+        <img src="{{ user.profilepic.url }}" style="object-fit: cover;
+        width: 5rem;
+        height: 5rem;" class="rounded-circle m-2" >
+        <h4 class="heading_font" style="color: rgb(255, 255, 255) !important;">Welcome Back ! <b>{{user.first_name}} </b> </h4>
+    </div>
+    
+          <div class="wrapper bg-success mt-3">
+            <div class="block-left"><h4 class="heading_font m-3" style="color: rgb(255, 255, 255) !important;">YOur hospital List </h4> </div>
+            <div class="block-right">
+              
+              <a href="{% url 'addHospital' %}" style="text-decoration: none;">
+             <h4 class="bottom_font m-3" style="color: rgb(255, 255, 255) !important;">Add new hospital <i class="bi bi-folder-plus"></i></i>  </h4> </div>
+            </a>
+        </div>
+        <div class="mt-2 p-3" style="border: black 2px solid;">
+          <table id="hospitalListTable" >
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Hospital Name</th>
+                  <th>Hospital Type</th>
+                  <th>District</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for m in hospitalData  %}            
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{m.name}}</td>
+                            <td>{{m.hos_type}}</td>
+                            <td>{{m.district}}</td>
+                            <td>
+                              
+                              {% if m.status %}
+                                <div class="form-check form-switch"> 
+                                  <label class="form-check-label" for="changeStatusBtn{{ forloop.counter }}">Active</label>
+                                  <input class="form-check-input" type="checkbox" role="switch" id="changeStatusBtn{{ forloop.counter }}" value="{{m.id}}" checked onchange="changeStatus(this.id)" >
+                                </div>
+                              {% else %}
+                                <div class="form-check form-switch"> 
+                                  <label class="form-check-label" for="changeStatusBtn{{ forloop.counter }}">InActive</label>
+                                  <input class="form-check-input" type="checkbox" role="switch" id="changeStatusBtn{{ forloop.counter }}" value="{{m.id}}" onchange="changeStatus(this.id)" >
+                                </div>
+                              {% endif %}
+  
+                          </td>
+                            <td>View , Delete</td>
+                        </tr>
+                {% endfor %}
+            </tbody>  
+        </table>
+
+        </div>
+          
+
+
+    </div>
+       
+{% endblock content %}
+
+
+
+
+
+
+

@@ -10,6 +10,8 @@ from django.contrib import messages
 from hospital.forms import BookingPatientForm
 from hospital.models import BookingPatient
 from django.contrib.auth.decorators import login_required
+from userSystem.forms import CustomUserProfileForm
+
 # Create your views here.
 
 
@@ -68,6 +70,35 @@ def myAppointmentDoctor(request):
        context={'form':form,'doctorId':doctorId , 'eachBookingList':eachBookingList}
 
        return render(request, "doctorApp/myAppointments.html",context)
+
+
+
+#Doctor Profile 
+#Redirect unauthorized user's from accessing 
+@login_required(login_url='UserLogin')
+def doctorMyProfile(request):
+
+
+    #profile pic
+    formset = CustomUserProfileForm()
+    context={'formset':formset,}
+
+    return render(request, 'doctorApp/myprofile.html',context)
+    
+#user pro pic
+def uploadDoctorPropic(request,id):
+        if request.method == "POST":
+            a = CustomUser.objects.get(pk=id)
+            form = CustomUserProfileForm(request.POST, request.FILES,instance=a)
+            if form.is_valid(): 
+                form.save()
+            return redirect("doctorMyProfile")
+        
+
+
+
+
+
 
 
 @login_required(login_url='UserLogin') 

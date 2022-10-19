@@ -1,6 +1,6 @@
 from django import forms
-from .models import BookingPatient 
-from crispy_forms.helper import FormHelper
+from .models import * 
+
 
 # # # Create your forms here.
 class BookingPatientForm(forms.ModelForm):
@@ -10,4 +10,12 @@ class BookingPatientForm(forms.ModelForm):
         fields = ('documents',)
         labels = {'documents': ('Upload Prescription')}
  
-       
+class AddHospitalForm(forms.ModelForm):
+
+    class Meta:
+        model = Hospital
+        fields = ('name','hos_type','district')
+        labels = {'name': ('Hospital Name'),
+                  'hos_type': ('Type of Hospital'),
+                  'district': ('District'),}
+        

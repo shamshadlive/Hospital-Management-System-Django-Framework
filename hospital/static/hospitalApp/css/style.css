@@ -1,3 +1,2 @@
-.colortes{
-    color: red;
-}
+.block-left { float: left; }
+.block-right { float: right; }

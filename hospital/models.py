@@ -42,6 +42,7 @@ class Hospital(models.Model):
     district = models.CharField(max_length=100,null=False, choices=dct_Choices)
     createdBy =models.ForeignKey(HospitalAdmin, on_delete=models.CASCADE)
     createdOn =models.DateTimeField(auto_now_add=True)
+    status=models.IntegerField(default=1)
  
 
     def __str__(self):

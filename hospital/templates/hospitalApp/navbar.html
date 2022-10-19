@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg " style="background-color: #179eff;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
 
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'home' %}">Logo</a>
@@ -10,12 +10,9 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'homeDoctor' %}">Home</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'homeHospital' %}">Home</a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link active " aria-current="page" href="{% url 'myAppointmentDoctor' %}">My Appointments</a>
-        </li>
 
        
 
@@ -25,10 +22,9 @@
       <div class="btn-group  ">
        
         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          {{user.first_name}} 
+          {{user.first_name}} )
         </button>
         <ul class= "dropdown-menu dropdown-menu-dark  dropdown-menu-lg-end ">
-          <li><a class="dropdown-item " href="{% url 'doctorMyProfile' %}">My Profile</a></li>
           <li><a class="dropdown-item " href="{% url 'logoutuser' %}">Logout</a></li>
         </ul>
       </div>

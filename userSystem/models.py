@@ -15,7 +15,7 @@ userChoices = (
 class CustomUser(AbstractUser):
     phone_number= models.CharField(null=True, blank=True,max_length=10)
     user_Type = models.CharField(max_length=10, choices=userChoices,default='NULL')
-    profilepic = models.ImageField(upload_to='user/profilepic/', null=True, storage=OverwriteStorage())
+    profilepic = models.ImageField(upload_to='user/profilepic/', null=True, storage=OverwriteStorage(),default='user/profilepic/default.svg')
 
 #setting email field unique
 CustomUser._meta.get_field('email')._unique = True

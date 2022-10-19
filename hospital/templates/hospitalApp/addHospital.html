@@ -1,0 +1,97 @@
+{% extends "hospitalApp/base.html" %}
+
+{% load static %}
+{% block title %}
+Add new n hospital
+{% endblock title %}
+
+
+{% block scripts %}
+<script>
+    
+$(document).ready( function () {
+  
+    document.getElementById("id_name").classList.add("form-control");
+    document.getElementById("id_hos_type").classList.add("form-select");
+    document.getElementById("id_district").classList.add("form-select");
+
+    
+
+  });
+  
+   
+
+</script>
+
+
+{% endblock scripts %}
+
+
+{% block navbar %}
+<section id="navbar">
+
+    {%include 'hospitalApp/navbar.html'%}
+ 
+  </section>
+{% endblock navbar %}
+
+
+
+{% block content %}
+
+
+      
+ <!-- main div for center align -->
+ <div class="d-flex justify-content-center">
+
+    <div class="container-fluid  col-xl-8  col-12 m-5 " style="background-color: white; ">
+    
+  
+      <div class="row">
+        <div class="bg-success p-0 " style="text-align: center;">
+          <h4 class="heading_font" style="color: rgb(255, 255, 255) !important;">Add New Hospital <i class="bi bi-folder-plus"></i></h4>
+      </div>
+      
+          <div class="mt-2 p-3" style="border: black 2px solid;">
+           
+            <form method="post" >
+                {% csrf_token %}
+
+
+                 <fieldset>
+                    <label for="id_name">Hospital Name:</label>
+                      
+                      
+                        
+                    <input type="text" id="id_name" name="name" value="{% if form.name.value %}{{form.name.value}}{% endif %}" placeholder="Enter Hospital Name">
+                    <span style="color: red;">
+                        {{ form.errors.name }}
+                    </span>
+                       
+                    
+                   
+
+                    <label for="id_hos_type">Hospital Type :</label>
+                   {{form.hos_type}}
+
+                   <label for="id_district">District :</label>
+                   {{form.district}}
+
+                   
+                
+
+                    <button class="btn btn-dark my-4" type="submit">Sumbit</button>
+              </form>
+
+
+          </div>
+            
+  
+  
+      </div>
+
+
+
+
+  {% endblock content %}
+

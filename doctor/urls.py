@@ -6,7 +6,8 @@ from . import views
 urlpatterns = [ 
     path('home-doctor', views.homeDoctor, name='homeDoctor'),
     path('doctor/myappointments', views.myAppointmentDoctor, name='myAppointmentDoctor'),
-
+    path('doctor/profile', views.doctorMyProfile, name='doctorMyProfile'),
+    path('uploadDoctorPropic/<int:id>', views.uploadDoctorPropic, name='uploadDoctorPropic'),
     #real url
     path('doctor/myappointments/change/markCompleted/<int:id>', views.doctorMarkCompeleted, name='doctorMarkCompeleted'),
 
