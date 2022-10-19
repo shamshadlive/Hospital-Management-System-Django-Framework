@@ -1,0 +1,145 @@
+{% extends "hospitalApp/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}
+Hospital Details
+{% endblock title %}
+
+
+{% block scripts %}
+
+<script src="{% static 'hospitalApp\js\hospitalDetails.js' %}"></script>   
+
+
+
+{% endblock scripts %}
+
+
+{% block navbar %}
+<section id="navbar">
+
+    {%include 'hospitalApp/navbar.html'%}
+ 
+  </section>
+{% endblock navbar %}
+
+
+
+{% block content %}
+
+
+       
+ <!-- main div for center align -->
+ <div class="d-flex justify-content-center">
+
+  <div class="container-fluid  col-xl-10  col-12 m-5 " style="background-color: white; ">
+  
+<!-- hospital HEading -->
+    <div class="row">
+      <div class="bg-success p-5 " style="text-align: center;">
+        <h3 class="" style="color: rgb(255, 255, 255) !important;">
+        {% for value in hospitalData %}
+            {{value.name}}
+            ({{value.hos_type}})
+        {% endfor %}
+             </b> </h3>
+    </div>
+
+    <!-- Active Doctors -->
+          <div class="bg-light  container mt-3 p-3"  style="border: black 2px solid;">
+            <div class="row text-center d-flex justify-content-center">
+                <div class="card text-bg-warning m-1 col-5" >
+                    <div class="card-header">Active Doctors</div>
+                    <div class="card-body">
+                      <h1 class="card-title text-center"><b>
+                      {% for m in doctorData %}
+                        {{m.activedocNo}}
+                      {% endfor %}
+                        </b></h1>
+                      <div class="card-text">
+            <table id="HosdoctorListTable" >
+            <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Doctor Name</th>
+                  <th>Status</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for m in doctorData  %}            
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{m.doctorName}}</td>
+                            <td>
+                                {% if m.is_active %}
+                                  <div class="form-check form-switch"> 
+                                    <label class="form-check-label" for="changeStatusBtn{{ forloop.counter }}">Active</label>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="changeStatusBtn{{ forloop.counter }}" value="{{m.doctorlistToken}}" checked onchange="changeStatus(this.id)" >
+                                  </div>
+                                {% else %}
+                                  <div class="form-check form-switch"> 
+                                    <label class="form-check-label" for="changeStatusBtn{{ forloop.counter }}">InActive</label>
+                                    <input class="form-check-input" type="checkbox" role="switch" id="changeStatusBtn{{ forloop.counter }}" value="{{m.doctorlistToken}}" onchange="changeStatus(this.id)" >
+                                  </div>
+                                {% endif %}
+                            </td>
+                            <td>
+                              <form>
+                                <button  class="btn btn-primary" formaction="#">View</button>
+                                <button  class="btn btn-danger" formaction="#">Delete</button>
+                              </form>
+                            </td>
+                        </tr>
+                {% endfor %}
+            </tbody>  
+        </table>
+                      </div>
+                    </div>
+                  </div>
+    
+                  <div class="card text-bg-primary m-1 col-3" >
+                    <div class="card-header">Completed  Bookings</div>
+                    <div class="card-body">
+                        <h1 class="card-title text-center"><b>11225</b></h1>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+    
+                  <div class="card text-bg-danger m-1 col-3" >
+                    <div class="card-header">Pending Bookings</div>
+                    <div class="card-body">
+                        <h1 class="card-title text-center"><b>524</b></h1>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+    
+                  <div class="card text-bg-secondary m-1 col-3">
+                    <div class="card-header">Deleted Bookings</div>
+                    <div class="card-body">
+                        <h1 class="card-title text-center"><b>5</b></h1>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                  </div>
+
+
+            </div>
+            
+
+
+            
+             
+          </div>
+        
+
+
+    </div>
+       
+{% endblock content %}
+
+
+
+
+
+
+

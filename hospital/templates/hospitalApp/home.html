@@ -92,7 +92,12 @@ Hospital Home
                               {% endif %}
   
                           </td>
-                            <td>View , Delete</td>
+                            <td>
+                              <form>
+                                <button  class="btn btn-primary" formaction="{% url 'hospitalview' m.name %}">View</button>
+                                <button  class="btn btn-danger" formaction="{% url 'hospitalDelete' m.id %}">Delete</button>
+                              </form>
+                            </td>
                         </tr>
                 {% endfor %}
             </tbody>  

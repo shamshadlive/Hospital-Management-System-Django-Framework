@@ -59,18 +59,11 @@ $(document).ready( function () {
 
 
                  <fieldset>
-                    <label for="id_name">Hospital Name:</label>
-                      
-                      
-                        
+                    <label for="id_name">Hospital Name:</label> 
                     <input type="text" id="id_name" name="name" value="{% if form.name.value %}{{form.name.value}}{% endif %}" placeholder="Enter Hospital Name">
                     <span style="color: red;">
                         {{ form.errors.name }}
                     </span>
-                       
-                    
-                   
-
                     <label for="id_hos_type">Hospital Type :</label>
                    {{form.hos_type}}
 
