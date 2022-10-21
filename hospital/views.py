@@ -55,22 +55,20 @@ def hospitalDelete(request,id ):
 #view hospital details
 @login_required(login_url='UserLogin')
 def hospitalview(request,getname ):
-        hospitalData=Hospital.objects.filter(name=getname).values('name','hos_type','id')
-        #getting hospital id
-        hospitalID=Hospital.objects.values_list('id', flat=True).get(name=getname)
-        #getting doctor id
-        doctorID=DoctorList.objects.filter(hospitalName_id=hospitalID).values('id','doctorName_id','is_active')
-        doctorData=[]
-        activedoctorNo=0
-        for i in doctorID:
-             eachUserID= Doctor.objects.values_list('userID_id', flat=True).get(id=i['doctorName_id'])
-             doctorName=CustomUser.objects.values_list('first_name', flat=True).get(id=eachUserID)
-             doctorData.append({'doctorName':doctorName,'is_active':i['is_active'],'doctorlistToken':i['id']})
+       hospitalData=Hospital.objects.filter(name=getname).values('name','hos_type','id')
+       #getting hospital id
+       hospitalID=Hospital.objects.values_list('id', flat=True).get(name=getname)
+       #getting doctor id
 
-        context={'hospitalData':hospitalData,'doctorData':doctorData}
-        return render(request, 'hospitalApp/hospitalDetails.html',context)
-
-
+       doctorID=DoctorList.objects.filter(hospitalName_id=hospitalID).values('id','doctorName_id','is_active')
+       doctorData=[]
+       activedoctorNo=0
+       for i in doctorID:
+              eachUserID= Doctor.objects.values_list('userID_id', flat=True).get(id=i['doctorName_id'])
+              doctorName=CustomUser.objects.values_list('first_name', flat=True).get(id=eachUserID)
+              doctorData.append({'doctorName':doctorName,'is_active':i['is_active'],'doctorlistToken':i['id']})
+              context={'hospitalData':hospitalData,'doctorData':doctorData}
+              return render(request, 'hospitalApp/hospitalDetails.html',context)
 
 #changeStatus Hospital
 def changeStatusHospital(request):

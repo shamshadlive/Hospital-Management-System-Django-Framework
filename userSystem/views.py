@@ -90,13 +90,13 @@ def register(request):
      #blocking admin
     if (request.user.is_superuser) and (request.user.is_authenticated):
             return HttpResponse("Got You Admin")
-    elif (User.objects.filter(user_Type="PATIENT").exists()) and (request.user.is_authenticated):
+            #type and loged user checking and moving to current pages
+    elif ((request.user.is_authenticated)and (User.objects.filter(user_Type="DOCTOR" , username=request.user.username).exists()) ) :
+             return redirect('homeDoctor')
+    elif( (request.user.is_authenticated) and (User.objects.filter(user_Type="PATIENT",username=request.user.username).exists()) )  :
             return redirect('homePatient')
-    elif (User.objects.filter(user_Type="DOCTOR").exists()) and (request.user.is_authenticated):
-            return redirect('homeDoctor')
-    elif (User.objects.filter(user_Type="HOSADMIN").exists()) and (request.user.is_authenticated):
+    elif((request.user.is_authenticated) and  (User.objects.filter(user_Type="HOSADMIN",username=request.user.username).exists()) ) :
             return redirect('homeHospital')
-
        
     elif request.method == 'POST':
             user_form = CreateUserForm(request.POST)
