@@ -27,6 +27,7 @@
 6. Upon each registeration verification mail sended to corresponding email , active only after the mail
 7. User profile section
 8. And many more :stuck_out_tongue_winking_eye:
+9. Please Don't forget to add SECRET_KEY,EMAIL DETAILS  on Settings.py
 
 
 >![image](https://user-images.githubusercontent.com/73699937/197556610-d855a888-21ef-48ee-833f-8db1e49fcb55.png)
