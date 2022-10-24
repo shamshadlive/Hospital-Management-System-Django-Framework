@@ -18,4 +18,8 @@ class AddHospitalForm(forms.ModelForm):
         labels = {'name': ('Hospital Name'),
                   'hos_type': ('Type of Hospital'),
                   'district': ('District'),}
-        
+
+class AddDoctorForm(forms.ModelForm):
+    class Meta:
+        model = List
+        exclude = ['hospital']
