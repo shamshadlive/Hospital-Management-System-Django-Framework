@@ -1,5 +1,5 @@
 {% extends "homeApp/base.html" %}
-
+{% load static %}
 
 {% block scripts %}
 <script>
@@ -41,7 +41,7 @@
 
         <!-- card 1 -->
         <div class="card m-2" style="width: 22rem;">
-          <img src="media/home/cards/book-appoinment.jpg " class="card-img-top" alt="...">
+          <img src="{% static 'homeApp/cards/book-appoinment.jpg' %}" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">Book Your Appointment</h5>
             <p class="card-text">Patients can create booking for the hospitals they like</p>
@@ -52,7 +52,7 @@
        <!-- card 2 -->
         <div class="card m-2" style="width: 22rem;">
           
-          <img src="media/home/cards/logincard.jpg " class="card-img-top" alt="...">
+          <img src="{% static 'homeApp/cards/logincard.jpg' %}" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">Login Or Register</h5>
             <p class="card-text">Login for experience the alll features</p>
@@ -62,7 +62,7 @@
 
          <!-- card 3 -->
         <div class="card m-2" style="width: 22rem;">
-          <img src="media/home/cards/contactus.jpg" class="card-img-top" alt="...">
+          <img src="{% static 'homeApp/cards/contactus.jpg' %}" class="card-img-top" alt="...">
           <div class="card-body">
             <h5 class="card-title">Contact Us</h5>
             <p class="card-text">Some quick example text to build on the card title </p>
